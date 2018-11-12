@@ -1,12 +1,21 @@
 import nltk
+from nltk.corpus import stopwords
+import string
+from parser import extractNounVerbCouples
+
 #tokenize document
 def preprocess(document):
+    #splitting document into sentences
    sentences = nltk.sent_tokenize(document)
-   sentences = [nltk.word_tokenize(sent) for sent in sentences]
-   sentences = [nltk.pos_tag(sent, tagset='universal') for sent in sentences]
-   return sentences
 
-sentences = preprocess('The little yellow dog barked at the cat.')
-print(sentences)
+    #tokenize each of the sentences
+   tokenizedSentences = [nltk.word_tokenize(sent) for sent in sentences]
+   tokenizedSentences = [nltk.pos_tag(sent, tagset='universal') for sent in tokenizedSentences]
 
-#TODO Now group these tokens into chunks(Noun + verb)
+   #extract noun verb couples
+   nounVerbCouples = extractNounVerbCouples(tokenizedSentences)
+   print("noun verb couples:")
+   print(nounVerbCouples)
+   return
+
+sentences = preprocess('“X Company’s sales increased by 20 percent in the second quarter. This is second\'s sentence.”')
